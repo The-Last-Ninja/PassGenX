@@ -125,11 +125,7 @@ def gen_pwd(pwd_length, lower, upper, numbers, specials, pwd_txt):
 
 
 # Function for copying a password into a clipboard
-def copy_pwd(app):
-
-    pwd_txt = TextBox(app, grid=[1, 6])
-    pwd_txt.width = 30
-    pwd_txt.bg = "White"
+def copy_pwd(pwd_txt):
 
     cp_pwd = pwd_txt.value
 
@@ -138,17 +134,20 @@ def copy_pwd(app):
     pwd_txt.clear()
 
 
-def show_pwd(app, show_btn):
+def show_pwd(app):
 
-    if show_btn.text == "Show":
-        pwd_txt = TextBox(app, grid=[1, 6])
-        pwd_txt.width = 30
-        pwd_txt.bg = "White"
-    else:
-        show_btn.text = "Hide"
-        pwd_txt = TextBox(app, grid=[1, 6], hide_text=True)
-        pwd_txt.width = 30
-        pwd_txt.bg = "White"
+    pwd_txt = TextBox(app, grid=[1, 6])
+    pwd_txt.disable()
+    pwd_txt.width = 30
+    pwd_txt.bg = "White"
+
+
+def hide_pwd(app):
+
+    pwd_txt = TextBox(app, grid=[1, 6], hide_text=True)
+    pwd_txt.disable()
+    pwd_txt.width = 30
+    pwd_txt.bg = "White"
 
 
 # Entry point of the program and displays an app
@@ -156,7 +155,7 @@ def main():
 
     app = App(title="Password Generator", height=350, width=750, bg='Gray', layout="grid")
 
-    Text(app, text="Password Generator", size=20, grid=[3, 0])
+    Text(app, text="Password Generator", size=20, grid=[2, 0])
 
     # Set up checkbox options for lowercase, uppercase, numbers and special characters
     lower = CheckBox(app, text="Lowercase", grid=[0, 2])
@@ -180,7 +179,8 @@ def main():
 
     # Set up a textbox for display a generated password
     Text(app, text="New Password", grid=[0, 6], size=14)
-    pwd_txt = TextBox(app, grid=[1, 6], hide_text=True)
+    pwd_txt = TextBox(app, grid=[1, 6])
+    pwd_txt.disable()
     pwd_txt.width = 30
     pwd_txt.bg = "White"
 
@@ -191,17 +191,21 @@ def main():
     gen_btn.width = 5
     gen_btn.text_size = 10
     gen_btn.text_color = 'Black'
-    copy_btn = PushButton(app, text="Copy", command=copy_pwd, args=[app], grid=[0, 8])
+    copy_btn = PushButton(app, text="Copy", command=copy_pwd, args=[pwd_txt], grid=[0, 8])
     copy_btn.bg = 'White'
     copy_btn.width = 5
     copy_btn.text_size = 10
     copy_btn.text_color = 'Black'
     show_btn = PushButton(app, text="Show", command=show_pwd, args=[app], grid=[1, 8])
-    show_btn.update_command(show_pwd, args=(app, show_btn))
     show_btn.bg = 'White'
     show_btn.width = 5
     show_btn.text_size = 10
     show_btn.text_color = 'Black'
+    hide_btn = PushButton(app, text="Hide", command=hide_pwd, args=[app], grid=[1, 9])
+    hide_btn.bg = 'White'
+    hide_btn.width = 5
+    hide_btn.text_size = 10
+    hide_btn.text_color = 'Black'
     exit_btn = PushButton(app, text="Exit", command=exit, grid=[1, 7])
     exit_btn.bg = 'white'
     exit_btn.width = 5
